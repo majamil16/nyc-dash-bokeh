@@ -10,11 +10,11 @@ def main():
 
     alldata = query_zip(df)
   #  print(alldata)
-  #  print(df) 
+    print(df) 
    
    # all_zips = set(df.index.get_level_values(1))
   #  print(all_zips)
-    print(alldata.values)
+   # print(alldata.values)
     
     st = alldata.values.flatten()
     print(st)
