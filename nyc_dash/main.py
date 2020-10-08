@@ -3,7 +3,7 @@ from bokeh.layouts import column
 from bokeh.plotting import figure
 from bokeh.models.widgets import Dropdown
 from bokeh.models import ColumnDataSource
-from bokeh.palettes import brewer # get nice colors
+from bokeh.palettes import mpl # get nice colors
 from src import data_analysis as da
 import os
 
@@ -23,7 +23,7 @@ menu = list(zips)
 plot_year = list(da.query_zip(data).values.flatten())
 #print(plot_year)
 
-f = figure(title="NYC Info")
+f = figure(title="NYC 311 Service Response Time", x_axis_label='month', y_axis_label='avg. response time (hours)')
 #f.line(x, plot_year)
 
 drop1 = Dropdown(label="Zipcode 1", button_type="danger", menu=menu)
@@ -50,10 +50,10 @@ colsource = {'x_vals':x,
 
 source = ColumnDataSource(colsource)
 
-colorpal = brewer['YlGnBu'][3]
-year_line = f.line('x_vals', 'yearly', line_color = colorpal[0], source=source, name='year_line', legend_label="2020 average")
-z1_line = f.line('x_vals', 'selected_zip1', line_color=colorpal[1],source=source, name='z1_line', legend_label="Zipcode 1")
-z2_line = f.line('x_vals', 'selected_zip2', line_color=colorpal[2],source=source, name='z2_line', legend_label="Zipcode 2")
+colorpal = mpl['Plasma'][3]
+year_line = f.line('x_vals', 'yearly', line_color = colorpal[0], source=source, name='year_line', legend_label="2020 average",line_width=5)
+z1_line = f.line('x_vals', 'selected_zip1', line_color=colorpal[1],source=source, name='z1_line', legend_label="Zipcode 1",line_width=5)
+z2_line = f.line('x_vals', 'selected_zip2', line_color=colorpal[2],source=source, name='z2_line', legend_label="Zipcode 2",line_width=5)
 
 #update the plot with newly clicked data from the dropdown
 def update_plot1(new):
@@ -75,7 +75,7 @@ drop1.on_click(handler1)
 #drop1.on_click(update_plot)
 drop2.on_click(handler2)
 
-f.legend.location = 'top_left'
+f.legend.location = 'top_right'
 
 curdoc().add_root(column(drop1, drop2, f))
 
