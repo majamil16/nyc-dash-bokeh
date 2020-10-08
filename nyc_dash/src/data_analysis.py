@@ -10,12 +10,21 @@ def construct_df(filepath):
     monthly_grouped = pd.DataFrame(df.groupby([pd.Grouper(key='open',freq='M'), 'zip'])['response_time_hr'].mean())
     all_zips = set(monthly_grouped.index.get_level_values(1))
 
-    return monthly_grouped, all_zips
+    new_index = pd.MultiIndex.from_product(monthly_grouped.index.levels) # this solves the fact that some don have incidents for all months, was ausing problems
+    new_df = monthly_grouped.reindex(new_index)
+    new_df = new_df.fillna(0).astype(float)
+    return new_df, all_zips
 
 
 def query_zip(df, zip_code=None):
     if zip_code is None:
         return df.mean(level=0) # if a zipcode is not provided, take the mean across all the months
-    else: # otherwise provide the monthly data for the provided zip code
-        return df.loc[(slice(None), zip_code),:] # otherwise provide it for the specified zipcode
+    # otherwise provide the monthly data for the provided zip code
+    # first check that the zip code has data for each month. if not, put 0's
+#    query = df.loc[(slice(None), zip_code),:]
+ #   if len(query) != 9:
+  #      all_dates = sorted(list(set(df.index.get_level_values(0))))
+   #     ind = query.index.get_level_values(0)
+    #    missing = np.where([date not in ind for date in all_dates])
+    return df.loc[(slice(None), zip_code),:] # otherwise provide it for the specified zipcode
 

@@ -3,6 +3,7 @@ from bokeh.layouts import column
 from bokeh.plotting import figure
 from bokeh.models.widgets import Dropdown
 from bokeh.models import ColumnDataSource
+from bokeh.palettes import brewer # get nice colors
 from src import data_analysis as da
 import os
 
@@ -28,18 +29,13 @@ f = figure(title="NYC Info")
 drop1 = Dropdown(label="Zipcode 1", button_type="danger", menu=menu)
 drop2 = Dropdown(label="Zipcode 2", button_type="danger", menu=menu)
 
-def handler(event):
-    #print(event.item)
-    update_plot(event.item)
-#clicked_zip1 = drop1.on_click(handler)
-#clicked_zip2 = drop2.on_click(handler)
+def handler1(event):
+    update_plot1(event.item)
 
-#zip1 = list(da.query_zip(data, clicked_zip1).values.flatten())
-#zip2 = list(da.query_zip(data, clicked_zip2).values.flatten())
-#print(zip1)
-#print(zip2)
+def handler2(event):
+    update_plot2(event.item)
+
 # set the source to specific columns initially
-
 zip1 = list(da.query_zip(data, zip_code='10001' ).values.flatten())
 zip2 = list(da.query_zip(data,zip_code="10002").values.flatten())
 
@@ -54,41 +50,32 @@ colsource = {'x_vals':x,
 
 source = ColumnDataSource(colsource)
 
-source_fromdf = ColumnDataSource(data)
-
-
-#def update_plot():
- #   source.data.update('selected_zip1': clicked_zip1, "selected_zip2": clicked_zip2)
-    
-#clicked1.onclick(update plot)
-
-#f.multi_line([x,x,x],[plot_year, zip1, zip2])
-year_line = f.line('x_vals', 'yearly', source=source, name='year_line')
-z1_line = f.line('x_vals', 'selected_zip1', source=source, name='z1_line')
-z2_line = f.line('x_vals', 'selected_zip2', source=source, name='z2_line')
+colorpal = brewer['YlGnBu'][3]
+year_line = f.line('x_vals', 'yearly', line_color = colorpal[0], source=source, name='year_line', legend_label="2020 average")
+z1_line = f.line('x_vals', 'selected_zip1', line_color=colorpal[1],source=source, name='z1_line', legend_label="Zipcode 1")
+z2_line = f.line('x_vals', 'selected_zip2', line_color=colorpal[2],source=source, name='z2_line', legend_label="Zipcode 2")
 
 #update the plot with newly clicked data from the dropdown
-def update_plot(new):
-  #  clicked_zip1 = drop1.on_click(handler) 
-  #  clicked_zip2 = drop2.on_click(handler)
+def update_plot1(new):
     new_zip_vals = list(da.query_zip(data, zip_code=new ).values.flatten())
     source.data.update({"selected_zip1":new_zip_vals}) # update the thing w the new value
-    
     z1_line = f.select_one({'name':'z1_line'})
-  #  z2_line = f.select_one({'name':'z2_line'})
     z1_line.data_source.data = dict(source.data)
-  #  z2_line.data_source.data = source.data
     print("HERE")
 
 def update_plot2(new):
-    source.data.update({'selected_zip2':new}) # update the selected zip2 w the new value
+    new_zip_vals = list(da.query_zip(data, zip_code=new ).values.flatten())
+    source.data.update({'selected_zip2':new_zip_vals}) # update the selected zip2 w the new value
     z2_line = f.select_one({'name':'z2_line'})
-    z2_line.data_source.data = source.data
+    z2_line.data_source.data = dict(source.data)
+    print("zip2")
 
 #when either drop1 or drop2 are clicked, update the plot
-drop1.on_click(handler)
+drop1.on_click(handler1)
 #drop1.on_click(update_plot)
-#drop2.on_click("value", update_plot2)
+drop2.on_click(handler2)
+
+f.legend.location = 'top_left'
 
 curdoc().add_root(column(drop1, drop2, f))
 
