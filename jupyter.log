@@ -1,0 +1,23 @@
+[W 21:42:15.013 NotebookApp] WARNING: The notebook server is listening on all IP addresses and not using encryption. This is not recommended.
+[I 21:42:15.090 NotebookApp] JupyterLab extension loaded from /home/ubuntu/anaconda3/lib/python3.8/site-packages/jupyterlab
+[I 21:42:15.090 NotebookApp] JupyterLab application directory is /home/ubuntu/anaconda3/share/jupyter/lab
+[I 21:42:15.092 NotebookApp] Serving notebooks from local directory: /home/ubuntu/a4
+[I 21:42:15.092 NotebookApp] The Jupyter Notebook is running at:
+[I 21:42:15.092 NotebookApp] http://ip-172-31-50-201:8888/
+[I 21:42:15.093 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 21:42:15.096 NotebookApp] No web browser found: could not locate runnable browser.
+[I 21:42:20.339 NotebookApp] 302 GET / (173.225.52.220) 0.50ms
+[I 21:42:20.366 NotebookApp] 302 GET /tree? (173.225.52.220) 0.70ms
+[I 21:42:25.328 NotebookApp] 302 POST /login?next=%2Ftree%3F (173.225.52.220) 1.19ms
+[I 21:43:02.236 NotebookApp] Kernel started: cac1ad15-6501-4682-ba26-215332988ae3
+[W 21:43:02.261 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20201016214214 (173.225.52.220) 12.40ms referer=http://52.91.136.43:8888/notebooks/calc_avg.ipynb
+[I 21:43:33.971 NotebookApp] Saving file at /calc_avg.ipynb
+[I 21:43:33.985 NotebookApp] Starting buffering for cac1ad15-6501-4682-ba26-215332988ae3:22f82c1b467b4e0188d24b37335326e6
+[I 21:43:36.310 NotebookApp] interrupted
+Serving notebooks from local directory: /home/ubuntu/a4
+1 active kernel
+The Jupyter Notebook is running at:
+http://ip-172-31-50-201:8888/
+Shutdown this notebook server (y/[n])? [C 21:43:36.689 NotebookApp] received signal 2, stopping
+[I 21:43:36.689 NotebookApp] Shutting down 1 kernel
+[I 21:43:36.991 NotebookApp] Kernel shutdown: cac1ad15-6501-4682-ba26-215332988ae3

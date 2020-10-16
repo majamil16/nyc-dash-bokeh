@@ -2,7 +2,7 @@ from bokeh.io import output_file, show, curdoc
 from bokeh.layouts import column
 from bokeh.plotting import figure
 from bokeh.models.widgets import Dropdown, Select
-from bokeh.models import ColumnDataSource
+from bokeh.models import ColumnDataSource, Legend, CustomJS
 from bokeh.palettes import mpl # get nice colors
 from src import data_analysis as da
 import os
@@ -25,6 +25,10 @@ plot_year = list(da.query_zip(data).values.flatten())
 
 f = figure(title="NYC 311 Service Response Time", x_axis_label='month', y_axis_label='avg. response time (hours)')
 #f.line(x, plot_year)
+print(f.xaxis.ticker)
+
+f.xaxis.ticker =[0, 1, 2, 3, 4, 5, 6, 7, 8]
+f.xaxis.major_label_overrides = {0: 'jan', 1: 'feb', 2: 'mar', 3:'apr', 4:'may', 5:'jun', 6:'jul', 7:'aug', 8:'sept'}
 
 drop1 = Dropdown(label="Zipcode 1", button_type="danger", menu=menu)
 drop2 = Dropdown(label="Zipcode 2", button_type="danger", menu=menu)
@@ -75,9 +79,6 @@ def update_plot2(new):
 #when either drop1 or drop2 are clicked, update the plot
 drop1.on_click(handler1)
 drop2.on_click(handler2)
-
-f.legend.location = 'top_right'
-
 
 curdoc().add_root(column(drop1, drop2, f))
 
